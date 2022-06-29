@@ -3,6 +3,7 @@
     max-width: 200px;
     border-radius: 6px;
     margin-bottom: 10px;
+    padding-right: 20px;
     transition: transform .2s;
 }
 

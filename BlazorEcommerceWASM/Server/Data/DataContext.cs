@@ -80,6 +80,7 @@
                         Id = 6,
                         Title = "The Seventh Seal",
                         Description = "The Seventh Seal (Swedish: Det sjunde inseglet) is a 1957 Swedish historical fantasy film written and directed by Ingmar Bergman. Set in Sweden[3][4] during the Black Death, it tells of the journey of a medieval knight (Max von Sydow) and a game of chess he plays with the personification of Death (Bengt Ekerot), who has come to take his life.",
+                        ImageUrl = "https://m.media-amazon.com/images/I/71eJuo8oTGL._SY445_.jpg",
                         Price = 17.99m,
                         CategoryId = 2
                     },
