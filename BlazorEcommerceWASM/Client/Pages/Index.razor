@@ -1,5 +1,34 @@
 ﻿@page "/"
+@page "/search/{searchText}"
+@page "/{categoryUrl}"
+@inject IProductService ProductService
 
-<PageTitle>Dead Authors' Books</PageTitle>
+<PageTitle>Dead Artists</PageTitle>
 
-<ProductList />
+@if(SearchText == null && CategoryUrl == null)
+{
+    <FeaturedProducts />
+}
+else
+{
+    <ProductList />
+}
+
+@code {
+    [Parameter]
+    public string? CategoryUrl { get; set; } = null;
+
+    [Parameter]
+    public string? SearchText { get; set; } = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(SearchText != null)
+        {
+            await ProductService.SearchProducts(SearchText);
+        }
+        else {
+            await ProductService.GetProducts(CategoryUrl);
+        }
+    }
+}
