@@ -18,8 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\DeadArtistsWASMDeadArtistWASMDeadArtistsWASM.Client.csproj" />
-    <ProjectReference Include="..\Shared\DeadArtistsWASMDeadArtistWASMDeadArtistsWASM.Shared.csproj" />
+    <ProjectReference Include="..\Client\DeadArtistsWASM.Client.csproj" />
+    <ProjectReference Include="..\Shared\DeadArtistsWASM.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 

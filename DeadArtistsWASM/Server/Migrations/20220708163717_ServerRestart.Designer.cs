@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeadArtistsWASM.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220701183301_FeaturedProducts")]
-    partial class FeaturedProducts
+    [Migration("20220708163717_ServerRestart")]
+    partial class ServerRestart
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
