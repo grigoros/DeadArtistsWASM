@@ -17,15 +17,29 @@ namespace DeadArtistsWASM.Client.Services.OrderService
             _navigationManager = navigationManager;
         }
 
-        public async Task PlaceOrder()
+        public async Task<OrderDetailsResponse> GetOrderDetails(int orderId)
+        {
+            var result = await _http.GetFromJsonAsync<ServiceResponse<OrderDetailsResponse>>($"api/order/{orderId}");
+            return result.Data;
+        }
+
+        public async Task<List<OrderOverviewResponse>> GetOrders()
+        {
+            var result = await _http.GetFromJsonAsync<ServiceResponse<List<OrderOverviewResponse>>>("api/order");
+            return result.Data;
+        }
+
+        public async Task<string> PlaceOrder()
         {
             if (await IsUserAuthenticated())
             {
-                await _http.PostAsync("api/order", null);
+                var result = await _http.PostAsync("api/payment/checkout", null);
+                var url = await result.Content.ReadAsStringAsync();
+                return url;
             }
             else
             {
-                _navigationManager.NavigateTo("login");
+                return "login";
             }
         }
 

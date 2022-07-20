@@ -7,6 +7,8 @@ global using DeadArtistsWASM.Server.Services.CategoryService;
 global using DeadArtistsWASM.Server.Services.CartService;
 global using DeadArtistsWASM.Server.Services.AuthService;
 global using DeadArtistsWASM.Server.Services.OrderService;
+global using DeadArtistsWASM.Server.Services.PaymentService;
+global using DeadArtistsWASM.Server.Services.AddressService;
 
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -31,6 +33,9 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
