@@ -5,6 +5,9 @@ global using DeadArtistsWASM.Client.Services.CategoryService;
 global using DeadArtistsWASM.Client.Services.AuthService;
 global using DeadArtistsWASM.Client.Services.CartService;
 global using DeadArtistsWASM.Client.Services.OrderService;
+global using DeadArtistsWASM.Client.Services.AddressService;
+global using DeadArtistsWASM.Client.Services.ProductTypeService;
+
 global using Microsoft.AspNetCore.Components.Authorization;
 using DeadArtistsWASM.Client;
 using Microsoft.AspNetCore.Components.Web;
@@ -23,6 +26,7 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
 
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();

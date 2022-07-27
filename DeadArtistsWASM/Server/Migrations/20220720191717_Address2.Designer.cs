@@ -4,6 +4,7 @@ using DeadArtistsWASM.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeadArtistsWASM.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220720191717_Address2")]
+    partial class Address2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,9 +98,6 @@ namespace DeadArtistsWASM.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -106,9 +105,6 @@ namespace DeadArtistsWASM.Server.Migrations
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Visible")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -118,26 +114,20 @@ namespace DeadArtistsWASM.Server.Migrations
                         new
                         {
                             Id = 1,
-                            Deleted = false,
                             Name = "Books",
-                            Url = "books",
-                            Visible = true
+                            Url = "books"
                         },
                         new
                         {
                             Id = 2,
-                            Deleted = false,
                             Name = "Movies",
-                            Url = "movies",
-                            Visible = true
+                            Url = "movies"
                         },
                         new
                         {
                             Id = 3,
-                            Deleted = false,
                             Name = "Music",
-                            Url = "music",
-                            Visible = true
+                            Url = "music"
                         });
                 });
 
@@ -200,9 +190,6 @@ namespace DeadArtistsWASM.Server.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -218,9 +205,6 @@ namespace DeadArtistsWASM.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Visible")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -232,100 +216,82 @@ namespace DeadArtistsWASM.Server.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            Deleted = false,
                             Description = "Anna Karenina (Russian: «Анна Каренина», IPA: [ˈanːə kɐˈrʲenʲɪnə])[1] is a novel by the Russian author Leo Tolstoy, first published in book form in 1878. Widely considered to be one of the greatest works of literature ever written,[2] Tolstoy himself called it his first true novel. It was initially released in serial installments from 1875 to 1877, all but the last part appearing in the periodical The Russian Messenger.[3]",
                             Featured = false,
                             ImageUrl = "https://images-na.ssl-images-amazon.com/images/I/41MCjKLqN9L._SY291_BO1,204,203,200_QL40_FMwebp_.jpg",
-                            Title = "Anna Karenina",
-                            Visible = true
+                            Title = "Anna Karenina"
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 1,
-                            Deleted = false,
                             Description = "The Brothers Karamazov (Russian: Братья Карамазовы, Brat'ya Karamazovy, pronounced [ˈbratʲjə kərɐˈmazəvɨ]), also translated as The Karamazov Brothers, is the last novel by Russian author Fyodor Dostoevsky. Dostoevsky spent nearly two years writing The Brothers Karamazov, which was published as a serial in The Russian Messenger from January 1879 to November 1880. Dostoevsky died less than four months after its publication.",
                             Featured = false,
                             ImageUrl = "https://images-na.ssl-images-amazon.com/images/I/41HLWWP2ZWL._SY291_BO1,204,203,200_QL40_FMwebp_.jpg",
-                            Title = "The Brothers Karamazov",
-                            Visible = true
+                            Title = "The Brothers Karamazov"
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 1,
-                            Deleted = false,
                             Description = "The Lord of the Rings is an epic[1] high-fantasy novel[a] by English author and scholar J. R. R. Tolkien. Set in Middle-earth, intended to be Earth at some distant time in the past, the story began as a sequel to Tolkien's 1937 children's book The Hobbit, but eventually developed into a much larger work. Written in stages between 1937 and 1949, The Lord of the Rings is one of the best-selling books ever written, with over 150 million copies sold.",
                             Featured = true,
                             ImageUrl = "https://m.media-amazon.com/images/I/51bJhsl5VmL._SY346_.jpg",
-                            Title = "The Lord of the Rings",
-                            Visible = true
+                            Title = "The Lord of the Rings"
                         },
                         new
                         {
                             Id = 4,
                             CategoryId = 2,
-                            Deleted = false,
                             Description = "It's a Wonderful Life is a 1946 American Christmas fantasy drama film produced and directed by Frank Capra, based on the short story and booklet The Greatest Gift, which Philip Van Doren Stern self-published in 1943 and is in turn loosely based on the 1843 Charles Dickens novella A Christmas Carol.[4] The film stars James Stewart as George Bailey, a man who has given up his personal dreams, in order to help others in his community, and whose thoughts of suicide on Christmas Eve brings about the intervention of his guardian angel, Clarence Odbody (Henry Travers).",
                             Featured = false,
                             ImageUrl = "https://m.media-amazon.com/images/I/71OzD09EmQL._SY445_.jpg",
-                            Title = "It's a Wonderful Life",
-                            Visible = true
+                            Title = "It's a Wonderful Life"
                         },
                         new
                         {
                             Id = 5,
                             CategoryId = 2,
-                            Deleted = false,
                             Description = "Casablanca is a 1942 American romantic drama film directed by Michael Curtiz, and starring Humphrey Bogart, Ingrid Bergman, and Paul Henreid. Filmed and set during World War II, it focuses on an American expatriate (Bogart) who must choose between his love for a woman (Bergman) or helping her and her husband (Henreid), a Czech resistance leader, escape from the Vichy-controlled city of Casablanca to continue his fight against the Germans. The screenplay is based on Everybody Comes to Rick's, an unproduced stage play by Murray Burnett and Joan Alison. The supporting cast features Claude Rains, Conrad Veidt, Sydney Greenstreet, Peter Lorre, and Dooley Wilson.",
                             Featured = false,
                             ImageUrl = "https://m.media-amazon.com/images/I/51k3eupDstL.jpg",
-                            Title = "Casablanca",
-                            Visible = true
+                            Title = "Casablanca"
                         },
                         new
                         {
                             Id = 6,
                             CategoryId = 2,
-                            Deleted = false,
                             Description = "The Seventh Seal (Swedish: Det sjunde inseglet) is a 1957 Swedish historical fantasy film written and directed by Ingmar Bergman. Set in Sweden[3][4] during the Black Death, it tells of the journey of a medieval knight (Max von Sydow) and a game of chess he plays with the personification of Death (Bengt Ekerot), who has come to take his life.",
                             Featured = true,
                             ImageUrl = "https://m.media-amazon.com/images/I/71eJuo8oTGL._SY445_.jpg",
-                            Title = "The Seventh Seal",
-                            Visible = true
+                            Title = "The Seventh Seal"
                         },
                         new
                         {
                             Id = 7,
                             CategoryId = 3,
-                            Deleted = false,
                             Description = "Roman Candle is the debut studio album by American singer-songwriter Elliott Smith. It was recorded in late 1993 and released on July 14, 1994 by record label Cavity Search.",
                             Featured = true,
                             ImageUrl = "https://images-na.ssl-images-amazon.com/images/I/51Es-Y9Fv7L._SX300_SY300_QL70_FMwebp_.jpg",
-                            Title = "Roman Candle",
-                            Visible = true
+                            Title = "Roman Candle"
                         },
                         new
                         {
                             Id = 8,
                             CategoryId = 3,
-                            Deleted = false,
                             Description = "All Things Must Pass is the third studio album by English rock musician George Harrison. Released as a triple album in November 1970, it was Harrison's first solo work after the break-up of the Beatles in April that year.",
                             Featured = false,
                             ImageUrl = "https://m.media-amazon.com/images/I/81yhPJT66vL._SY355_.jpg",
-                            Title = "All Things Must Pass",
-                            Visible = true
+                            Title = "All Things Must Pass"
                         },
                         new
                         {
                             Id = 9,
                             CategoryId = 3,
-                            Deleted = false,
                             Description = "Grace is the only studio album by American singer-songwriter Jeff Buckley, released on August 23, 1994, by Columbia Records. The album had poor sales and received mixed reviews at the time of its release.[4] However, in recent years it has dramatically risen in critical reputation. An extended version of the album (subtitled 'Legacy Edition'), celebrating its tenth anniversary, was released on August 23, 2004, and peaked at number 44 in the UK.",
                             Featured = false,
                             ImageUrl = "https://m.media-amazon.com/images/I/81b3GHV5YAL._SY355_.jpg",
-                            Title = "Grace",
-                            Visible = true
+                            Title = "Grace"
                         });
                 });
 
@@ -391,17 +357,11 @@ namespace DeadArtistsWASM.Server.Migrations
                     b.Property<int>("ProductTypeId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
                     b.Property<decimal>("OriginalPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("Visible")
-                        .HasColumnType("bit");
 
                     b.HasKey("ProductId", "ProductTypeId");
 
@@ -414,163 +374,127 @@ namespace DeadArtistsWASM.Server.Migrations
                         {
                             ProductId = 1,
                             ProductTypeId = 2,
-                            Deleted = false,
                             OriginalPrice = 14.99m,
-                            Price = 10.99m,
-                            Visible = true
+                            Price = 10.99m
                         },
                         new
                         {
                             ProductId = 1,
                             ProductTypeId = 3,
-                            Deleted = false,
                             OriginalPrice = 0m,
-                            Price = 22.99m,
-                            Visible = true
+                            Price = 22.99m
                         },
                         new
                         {
                             ProductId = 2,
                             ProductTypeId = 2,
-                            Deleted = false,
                             OriginalPrice = 13.99m,
-                            Price = 9.99m,
-                            Visible = true
+                            Price = 9.99m
                         },
                         new
                         {
                             ProductId = 2,
                             ProductTypeId = 3,
-                            Deleted = false,
                             OriginalPrice = 0m,
-                            Price = 20.99m,
-                            Visible = true
+                            Price = 20.99m
                         },
                         new
                         {
                             ProductId = 3,
                             ProductTypeId = 2,
-                            Deleted = false,
                             OriginalPrice = 13.99m,
-                            Price = 10.99m,
-                            Visible = true
+                            Price = 10.99m
                         },
                         new
                         {
                             ProductId = 3,
                             ProductTypeId = 3,
-                            Deleted = false,
                             OriginalPrice = 0m,
-                            Price = 19.99m,
-                            Visible = true
+                            Price = 19.99m
                         },
                         new
                         {
                             ProductId = 4,
                             ProductTypeId = 4,
-                            Deleted = false,
                             OriginalPrice = 14.99m,
-                            Price = 8.99m,
-                            Visible = true
+                            Price = 8.99m
                         },
                         new
                         {
                             ProductId = 4,
                             ProductTypeId = 5,
-                            Deleted = false,
                             OriginalPrice = 0m,
-                            Price = 13.99m,
-                            Visible = true
+                            Price = 13.99m
                         },
                         new
                         {
                             ProductId = 5,
                             ProductTypeId = 4,
-                            Deleted = false,
                             OriginalPrice = 14.99m,
-                            Price = 10.99m,
-                            Visible = true
+                            Price = 10.99m
                         },
                         new
                         {
                             ProductId = 5,
                             ProductTypeId = 5,
-                            Deleted = false,
                             OriginalPrice = 0m,
-                            Price = 12.99m,
-                            Visible = true
+                            Price = 12.99m
                         },
                         new
                         {
                             ProductId = 6,
                             ProductTypeId = 4,
-                            Deleted = false,
                             OriginalPrice = 12.99m,
-                            Price = 9.99m,
-                            Visible = true
+                            Price = 9.99m
                         },
                         new
                         {
                             ProductId = 6,
                             ProductTypeId = 5,
-                            Deleted = false,
                             OriginalPrice = 13.99m,
-                            Price = 10.99m,
-                            Visible = true
+                            Price = 10.99m
                         },
                         new
                         {
                             ProductId = 7,
                             ProductTypeId = 6,
-                            Deleted = false,
                             OriginalPrice = 13.99m,
-                            Price = 9.99m,
-                            Visible = true
+                            Price = 9.99m
                         },
                         new
                         {
                             ProductId = 7,
                             ProductTypeId = 7,
-                            Deleted = false,
                             OriginalPrice = 0m,
-                            Price = 15.99m,
-                            Visible = true
+                            Price = 15.99m
                         },
                         new
                         {
                             ProductId = 8,
                             ProductTypeId = 6,
-                            Deleted = false,
                             OriginalPrice = 11.99m,
-                            Price = 8.99m,
-                            Visible = true
+                            Price = 8.99m
                         },
                         new
                         {
                             ProductId = 8,
                             ProductTypeId = 7,
-                            Deleted = false,
                             OriginalPrice = 0m,
-                            Price = 9.99m,
-                            Visible = true
+                            Price = 9.99m
                         },
                         new
                         {
                             ProductId = 9,
                             ProductTypeId = 6,
-                            Deleted = false,
                             OriginalPrice = 16.99m,
-                            Price = 12.99m,
-                            Visible = true
+                            Price = 12.99m
                         },
                         new
                         {
                             ProductId = 9,
                             ProductTypeId = 7,
-                            Deleted = false,
                             OriginalPrice = 13.99m,
-                            Price = 11.99m,
-                            Visible = true
+                            Price = 11.99m
                         });
                 });
 
@@ -596,10 +520,6 @@ namespace DeadArtistsWASM.Server.Migrations
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

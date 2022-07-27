@@ -2,19 +2,20 @@
 
 @if (address == null)
 {
-    <span>You haven't entered a delivery address. 
+    <span>
+        You haven't entered a delivery address. 
         <button class="btn" @onclick="InitAddress">Add an address?</button>
     </span>
 }
 else if (!editAddress) 
 {
     <p>
-        <span>@address.FirstName @address.LastName</span>
-        <span>@address.Street</span>
-        <span>@address.City, @address.State, @address.Zip</span>
-        <span>@address.Country</span>
+        <span>@address.FirstName @address.LastName</span><br />
+        <span>@address.Street</span><br />
+        <span>@address.City, @address.State, @address.Zip</span><br />
+        <span>@address.Country</span><br />
     </p>
-    <button class="btn btn-primary" @onclick="EditAddress"></button>
+    <button class="btn btn-primary" @onclick="EditAddress">Edit</button>
 }
 else
 {
@@ -64,6 +65,7 @@ else
     {
         editAddress = false;
         address = await AddressService.AddOrUpdateAddress(address);
+        StateHasChanged();
     }
 
     private void InitAddress()
