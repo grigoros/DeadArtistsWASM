@@ -2,6 +2,7 @@
 @inject ICategoryService CategoryService
 @attribute [Authorize(Roles = "Admin")] 
 @implements IDisposable 
+@inject IJSRuntime JSRuntime
 
 <h3>Categories</h3>
 
@@ -92,7 +93,8 @@
 
     private async Task UpdateCategory()
     {
-        if(editingCategory.IsNew) {
+        if (editingCategory.IsNew) 
+        {
             await CategoryService.AddCategory(editingCategory);
         }
         else {
@@ -109,6 +111,11 @@
 
     private async Task DeleteCategory(int id)
     {
-        await CategoryService.DeleteCategory(id);
+        bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"Do you really want to delete this category?");
+        if (confirmed) 
+        {
+            await CategoryService.DeleteCategory(id);
+        }
     }
 }

@@ -15,5 +15,7 @@ namespace DeadArtistsWASM.Shared
         public bool Editing { get; set; } = false;
         [NotMapped]
         public bool IsNew { get; set; } = false;
+        public bool Visible { get; set; } = true;
+        public bool Deleted { get; set; } = false;
     }
 }

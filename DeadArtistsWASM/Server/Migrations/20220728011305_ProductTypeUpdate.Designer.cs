@@ -4,6 +4,7 @@ using DeadArtistsWASM.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeadArtistsWASM.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220728011305_ProductTypeUpdate")]
+    partial class ProductTypeUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -610,9 +612,11 @@ namespace DeadArtistsWASM.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Role")
@@ -622,15 +626,6 @@ namespace DeadArtistsWASM.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 100,
-                            DateCreated = new DateTime(2022, 7, 27, 22, 30, 27, 210, DateTimeKind.Local).AddTicks(705),
-                            Email = "admin@gmail.com",
-                            Role = "Customer"
-                        });
                 });
 
             modelBuilder.Entity("DeadArtistsWASM.Shared.Address", b =>
@@ -711,7 +706,8 @@ namespace DeadArtistsWASM.Server.Migrations
 
             modelBuilder.Entity("DeadArtistsWASM.Shared.User", b =>
                 {
-                    b.Navigation("Address");
+                    b.Navigation("Address")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

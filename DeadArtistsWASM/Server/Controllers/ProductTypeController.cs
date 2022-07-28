@@ -6,7 +6,7 @@ namespace DeadArtistsWASM.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+
     public class ProductTypeController : ControllerBase
     {
         private readonly IProductTypeService _productTypeService;
@@ -23,18 +23,32 @@ namespace DeadArtistsWASM.Server.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpGet("admin"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<ProductType>>>> GetAdminProductTypes()
+        {
+            var result = await _productTypeService.GetAdminProductTypes();
+            return Ok(result);
+        }
+
+        [HttpPost("admin"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<List<ProductType>>>> AddProductType(ProductType productType)
         {
             var response = await _productTypeService.AddProductType(productType);
             return Ok(response);
         }
 
-        [HttpPut]
+        [HttpPut("admin"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<List<ProductType>>>> UpdateProductType(ProductType productType)
         {
             var response = await _productTypeService.UpdateProductType(productType);
             return Ok(response);
+        }
+
+        [HttpDelete("admin/{id}"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<ProductType>>>> DeleteProductType(int id)
+        {
+            var result = await _productTypeService.DeleteProductType(id);
+            return Ok(result);
         }
     }
 }
