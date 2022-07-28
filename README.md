@@ -25,16 +25,18 @@ This ReadMe will discuss: <br/>
 
 Several Code Louisville Requirements have been satisfied in this project:
 
-1. Create an additional class which inherits one or more properties from its parent
-2. Create a dictionary or list, populate it with several values, retrieve at least one value, and use it in your program.
-3. Read data from an external file, such as text, JSON, CSV, etc and use that data in your application **(SQL Server stores
-the data and sends data to the client as JSON)**
-4. Connect to an external/3rd party API and read data into your app. ***(To test this functionality user will have to create a Stripe account and use their own test APIs, as I am not comfortable sharing my Stripe/bank account information online.)**
+(1) Create an additional class which inherits one or more properties from its parent <br/>
+(2) Create a dictionary or list, populate it with several values, retrieve at least one value, and use it in your program. <br/>
+(3) Read data from an external file, such as text, JSON, CSV, etc and use that data in your application **(SQL Server stores
+the data and sends data to the client as JSON)** <br/>
+(4) Connect to an external/3rd party API and read data into your app. **(To test this functionality user will have to create a Stripe account and use their own test APIs, as I am not comfortable sharing my Stripe/bank account information online.)** <br/>
 
-EXAMPLE CODE shows the pathway through several classes whereby the client "gets" products from the SQL Database:
+***EXAMPLE CODE below shows the pathway through several classes whereby the client "gets" and displays products from the SQL Database:***
 
-1. My class, DataContext, inherits from the EF DbContext class to act as the "data layer" and model builder for
-my SQL database. Example code found in DeadArtistsWASM\Server\Data\DataContext.cs **(Requirement 1 satisfied)**
+------------------------------------------------------------------------------------------------------------------
+
+(1) The class, DataContext, inherits from the EF DbContext class to act as the "data layer" and model builder for
+my SQL database. Example code found in DeadArtistsWASM\Server\Data\DataContext.cs **(Requirement 1 satisfied)** <br/>
 
 public class DataContext : DbContext
     {
@@ -56,16 +58,18 @@ public class DataContext : DbContext
 
 ------------------------------------------------------------------------------------------------------------------
 
-2. For clarity, the Product model code and ServiceResponse value object code are shown below. The ServiceResponse class encapsulate all objects as results that are given to the client. One such encapsulated object the client receives is the object of type Product.
+(2) For clarity, the Product model code and ServiceResponse value object code are shown below. The ServiceResponse class encapsulate all objects as results that are given to the client. One such encapsulated object the client receives is the object of type Product. <br/>
 
 **ServiceResponse:**
 
+```cs
 public class ServiceResponse<T>
     {
         public T? Data { get; set; }
         public bool Success { get; set; } = true;
         public string Message { get; set; } = string.Empty;
     }
+```
 
 **Product:** 
 
