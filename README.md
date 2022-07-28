@@ -29,34 +29,51 @@ Several Code Louisville Requirements have been satisfied in this project:
 2. Create a dictionary or list, populate it with several values, retrieve at least one value, and use it in your program.
 3. Read data from an external file, such as text, JSON, CSV, etc and use that data in your application **(SQL Server stores
 the data and sends data to the client as JSON)**
-4. Connect to an external/3rd party API and read data into your app.
+4. Connect to an external/3rd party API and read data into your app. ***(To test this functionality user will have to create a Stripe account and use their own test APIs, as I am not comfortable sharing my Stripe/bank account information online.)**
 
 EXAMPLE CODE shows the pathway through several classes whereby the client "gets" products from the SQL Database:
 
 1. My class, DataContext, inherits from the EF DbContext class to act as the "data layer" and model builder for
-my SQL database. Example code found in DeadArtistsWASM\Server\Data\DataContext.cs
+my SQL database. Example code found in DeadArtistsWASM\Server\Data\DataContext.cs **(Requirement 1 satisfied)**
 
-![image](https://user-images.githubusercontent.com/35633314/181604776-3b26cc41-47dd-42ec-88f1-7a38af29a3af.png)
+![image](https://user-images.githubusercontent.com/35633314/181604776-3b
 
+2. For clarity, the Product model code and ServiceResponse value object code are shown below. The ServiceResponse class encapsulate all objects as results that are given to the client. One such encapsulated object the client receives is the object of type Product.
 
-![image](https://user-images.githubusercontent.com/35633314/181603954-27fd8292-d61a-4573-bb1c-a58d9f1fce91.png)
+ServiceResponse:
 
-2. Back-end Service: example code found in DeadArtistsWASM\Server\Services\ProductService\ProductService.cs
-    --> Back-end retrieves data from SQL Server and sends to controller.
+![image](https://user-images.githubusercontent.com/35633314/181605842-d7eabfaf-20bd-42b4-8674-1044b2df5b53.png)
+
+Product: 
+
+![image](https://user-images.githubusercontent.com/35633314/181606289-18c6af81-485b-4679-926a-84e64abb995e.png)
+
+2. Using an instantiation of the DataContext object, the ServiceResponse value object, and object models, the back-end/server services generate and return a response of type [OBJECT]. The example below shows the method whereby the back-end service retrieves products from the SQL database. Moreover, the example shows the first instantiation of a List. Example code found in DeadArtistsWASM\Server\Services\ProductService\ProductService.cs **(Requirements 2 and 3 partially satisfied; this data will be used  in the client)
 
 ![image](https://user-images.githubusercontent.com/35633314/181602363-f814d9e8-6e9a-478c-947f-8853c0823867.png)
 
-Controller: example code found in DeadArtistsWASM\Server\Controllers\ProductController.cs
-    --> Controller manages HTTP requests between back and front ends.
+3. The ProductController manages HTTP requests between back and front ends. Example code found in DeadArtistsWASM\Server\Controllers\ProductController.cs
 
 ![image](https://user-images.githubusercontent.com/35633314/181602009-997128e5-5a6c-4625-952b-71e96447e838.png)
 
-Front-end Service: example code found in DeadArtistsWASM\Client\Services\ProductService\ProductService.cs
-    --> Front-end initializes the list of products and gets the data from the controller.
+4. The front-end/client ProductService initializes the list of products and gets the data from the controller. Example code found in DeadArtistsWASM\Client\Services\ProductService\ProductService.cs
 
 ![image](https://user-images.githubusercontent.com/35633314/181601661-1bea0bb4-cae9-4066-b31e-9473bed2933b.png)
 
 ![image](https://user-images.githubusercontent.com/35633314/181601849-80192cff-fedd-4c89-a234-35bd1d396a11.png)
+
+5. The ProductList razor component then injects the ProductService to organize the product properties in HTML. Example code found in DeadArtistsWASM\Client\Shared\ProductList.razor
+
+![image](https://user-images.githubusercontent.com/35633314/181611589-47f5e750-c97b-4f2a-b7c8-f616b4db95b2.png)
+
+6. Finally the ProductService is injected and the ProductList Razor component added to the HTML on the Index page. Example code found in DeadArtistsWASM\Client\Pages\Index.razor **(Requirements 2 and 3 are now fully satisfied).
+
+![image](https://user-images.githubusercontent.com/35633314/181613109-77bc3486-8e78-4308-800f-90e302f8e504.png)
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 
 
