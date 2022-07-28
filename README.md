@@ -12,9 +12,9 @@ My website, Dead Artists, is an e-commerce site specializing in the sale of medi
 (musicians, film-makers, and writers), who are dead.
 
 This ReadMe is broken down into three sections:<br/>
-    I. Introduction (you are **here**) <br/>
-    II. Project Requirements <br/>
-    III. Setup <br/>
+&emsp; I. Introduction (you are **here**) <br/>
+&emsp; II. Project Requirements <br/>
+&emsp; III. Setup <br/>
 
 The project requirements section will guide the user through the logic of Back-end -> Controller -> Front-end.
 
