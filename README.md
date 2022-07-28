@@ -1,6 +1,6 @@
 # DeadArtistsWASM
 
-Introduction:
+**SECTION I. Introduction:**
 
 Welcome to my Code Louisville C# project!
 This Blazor WASM website is a barebones demonstration of my proficiency in the C# programming language,
@@ -11,17 +11,25 @@ Stripe webhooks.
 My website, Dead Artists, is an e-commerce site specializing in the sale of media produced only by artists
 (musicians, film-makers, and writers), who are dead.
 
-This ReadMe will discuss: <br/>
+This ReadMe is broken down into three sections:<br/>
+I. Introduction (you are **here**) <br/>
+II. Project Requirements <br/>
+III. Setup <br/>
 
-(1) The completion of project requirements <br/>
-(2) How to set up Microsoft SQL Server Management Studio <br/>
-(3) How to seed the SQL database <br/>
-(4) How to set up a Stripe account & CLI <br/>
-(5) How to utilize a Stripe Web API to checkout & create orders <br/>
-(6) How to register site users/administrators <br/>
-(7) How to navigate/use the site. <br/>
+The project requirements section will guide the user through the logic of Back-end -> Controller -> Front-end.
 
-**(1) Project Requirements**
+The Setup section will go over the following steps:
+1. The completion of project requirements <br/>
+2. How to set up Microsoft SQL Server Management Studio <br/>
+3. How to seed the SQL database <br/>
+4. How to set up a Stripe account & CLI <br/>
+5. How to utilize a Stripe Web API to checkout & create orders <br/>
+6. How to register site users/administrators <br/>
+7. How to navigate/use the site. <br/>
+
+Let us begin!
+
+**SECTION II. Project Requirements**
 
 Several Code Louisville Requirements have been satisfied in this project:
 
@@ -30,6 +38,10 @@ Several Code Louisville Requirements have been satisfied in this project:
 3. Read data from an external file, such as text, JSON, CSV, etc and use that data in your application **(SQL Server stores
 the data and sends data to the client as JSON)** <br/>
 4. Connect to an external/3rd party API and read data into your app. **(To test this functionality user will have to create a Stripe account and use their own test APIs, as I am not comfortable sharing my Stripe/bank account information online.)** <br/>
+
+**This project incorporates many other features such as JSON Web Token Creation and HMAC512 password encryption, but these features will not be discussed in the ReadMe.**
+
+------------------------------------------------------------------------------------------------------------------
 
 ***EXAMPLE CODE below shows the pathway through several classes whereby the client "gets" and displays products from the SQL Database:***
 
@@ -97,7 +109,7 @@ public class Product
 ```
 ------------------------------------------------------------------------------------------------------------------
 
-(3) Using an instantiation of the DataContext object, the ServiceResponse value object, and object models, the back-end/server services generate and return a response of type [OBJECT]. The example below shows the method whereby the back-end service retrieves products from the SQL database. Moreover, the example shows the first instantiation of a List. Example code found at DeadArtistsWASM\DeadArtistsWASM\Server\Services\ProductService\ProductService.cs **(Requirements 2 and 3 partially satisfied; this data will be used  in the client)** <br/>
+(3) Using an instantiation of the DataContext object, the ServiceResponse value object, and object models, the back-end/server services generate and return a response of type <OBJECT>. The example below shows the method whereby the back-end service retrieves products from the SQL database. Moreover, the example shows the first instantiation of a List. Example code found at DeadArtistsWASM\DeadArtistsWASM\Server\Services\ProductService\ProductService.cs **(Requirements 2 and 3 partially satisfied; this data will be used  in the client)** <br/>
 
 ```cs
 public async Task<ServiceResponse<List<Product>>> GetProductsAsync()
@@ -171,7 +183,7 @@ public  async Task GetProducts(string? categoryUrl = null)
 ```
 ------------------------------------------------------------------------------------------------------------------
 
-5. The ProductList razor component then injects the ProductService to organize the product properties in HTML. Example code found in DeadArtistsWASM\DeadArtistsWASM\Client\Shared\ProductList.razor
+(6) The ProductList razor component then injects the ProductService to organize the product properties in HTML. Example code found in DeadArtistsWASM\DeadArtistsWASM\Client\Shared\ProductList.razor <br>
 
 ```cs
 @inject IProductService ProductService
@@ -206,7 +218,7 @@ else
     </ul>
 ```
 
-6. Finally the ProductService is injected and the ProductList Razor component added to the HTML on the Index page. Code found at DeadArtistsWASM\DeadArtistsWASM\Client\Pages\Index.razor **(Requirements 2 and 3 are now fully satisfied)**.
+(7) Finally the ProductService is injected and the ProductList Razor component added to the HTML on the Index page. Code found at DeadArtistsWASM\DeadArtistsWASM\Client\Pages\Index.razor **(Requirements 2 and 3 are now fully satisfied)**. <br/>
 
 ```cs
 @page "/"
@@ -249,6 +261,118 @@ else
 ```
 
 ----------------------------------------------------------------------------------------------------------------------------------------
+
+***Reminder: to test Stripe API functionality, you will have to set up a Stripe account and CLI. This process is covered in the set-up section of this document.*** <br/>
+(8) The PaymentService pathway is summarized using the code snippets below. To utilize the Stripe API you will have to replace the "secret" string and test API key with ones keyed to your account.
+
+**BACK-END (example code found at DeadArtistsWASM\DeadArtistsWASM\Server\Services\PaymentService\PaymentService.cs):**
+
+```cs
+using Stripe;
+using Stripe.Checkout;
+
+namespace DeadArtistsWASM.Server.Services.PaymentService
+{
+    public class PaymentService : IPaymentService
+    {
+        private readonly ICartService _cartService;
+        private readonly IAuthService _authService;
+        private readonly IOrderService _orderService;
+
+        const string secret = "***SECRET OMITTED***";
+
+        public PaymentService(ICartService cartService,
+            IAuthService authService,
+            IOrderService orderService)
+        {
+            StripeConfiguration.ApiKey = "***SECRET KEY OMITTED***";
+
+            _cartService = cartService;
+            _authService = authService;
+            _orderService = orderService;
+        }
+
+        ...
+
+public async Task<Session> CreatCheckoutSession()
+    {
+        var products = (await _cartService.GetDbCartProducts()).Data;
+        var lineItems = new List<SessionLineItemOptions>();
+        products.ForEach(product => lineItems.Add(new SessionLineItemOptions
+        {
+            PriceData = new SessionLineItemPriceDataOptions
+            {
+                UnitAmountDecimal = product.Price * 100,
+                Currency = "usd",
+                ProductData = new SessionLineItemPriceDataProductDataOptions
+                {
+                    Name = product.Title,
+                    Images = new List<string> { product.ImageUrl }
+                }
+
+            },
+            Quantity = product.Quantity
+        }));
+
+        var options = new SessionCreateOptions
+        {
+            CustomerEmail = _authService.GetUserEmail(),
+            ShippingAddressCollection =
+                new SessionShippingAddressCollectionOptions
+                {
+                    AllowedCountries = new List<string> { "US" }
+                },
+            PaymentMethodTypes = new List<string>
+            {
+                "card"
+            },
+            LineItems = lineItems,
+            Mode = "payment",
+            SuccessUrl = "https://localhost:7230/order-success",
+            CancelUrl = "https://localhost:7230"
+        };
+
+        var service = new SessionService();
+        Session session = service.Create(options);
+        return session;
+    }
+```
+
+**CONTROLLER (example code found at DeadArtistsWASM\DeadArtistsWASM\Server\Controllers\PaymentController.cs):**
+
+[HttpPost("checkout"), Authorize]
+    public async Task<ActionResult<string>>CreateCheckoutSession()
+    {
+        var session = await _paymentService.CreatCheckoutSession();
+        return Ok(session.Url);
+    }
+
+**FRONT-END (example code found at DeadArtistsWASM\DeadArtistsWASM\Client\Services\OrderService\OrderService.cs):** 
+
+```cs
+public async Task<string> PlaceOrder()
+    {
+        if (await IsUserAuthenticated())
+        {
+            var result = await _http.PostAsync("api/payment/checkout", null);
+            var url = await result.Content.ReadAsStringAsync();
+            return url;
+        }
+        else
+        {
+            return "login";
+        }
+    }
+```
+
+//HTML implementation ommitted for brevity//<br/>
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 
 
 
