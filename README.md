@@ -11,15 +11,15 @@ Stripe webhooks.
 My website, Dead Artists, is an e-commerce site specializing in the sale of media produced only by artists
 (musicians, film-makers, and writers), who are dead.
 
-This ReadMe will discuss: 
+This ReadMe will discuss: <br/>
 
-(1) The completion of project requirements 
-(2) How to set up Microsoft SQL Server Management Studio
-(3) How to seed the SQL database
-(4) How to set up a Stripe account & CLI
-(5) How to utilize a Stripe Web API to checkout & create orders
-(6) How to register site users/administrators
-(7) How to navigate/use the site.
+(1) The completion of project requirements <br/>
+(2) How to set up Microsoft SQL Server Management Studio <br/>
+(3) How to seed the SQL database <br/>
+(4) How to set up a Stripe account & CLI <br/>
+(5) How to utilize a Stripe Web API to checkout & create orders <br/>
+(6) How to register site users/administrators <br/>
+(7) How to navigate/use the site. <br/>
 
 **(1) Project Requirements**
 
