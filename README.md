@@ -22,7 +22,7 @@ The Setup section will go over the following steps:
 1. Installing Microsoft SQL Server Express <br/>
 2. Installing Microsoft SQL Server Management Studio <br/>
 3. Seeding the SQL database <br/>
-4. How to register site users/administrators <br/>
+4. Registering users and adding an administrator <br/>
 5. Setting up a Stripe account<br/>
 6. Setting up a Stripe CLI <br/>
 7. How to navigate/use the site. <br/>
