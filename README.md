@@ -9,7 +9,7 @@ database is configured to use Microsoft SQL Server and the payment processor is 
 Stripe webhooks.
 
 My website, Dead Artists, is an e-commerce site specializing in the sale of media produced only by artists
-(musicians, film-makers, and writers), who are dead.
+(musicians, film-makers, and writers) who are dead.
 
 This ReadMe is broken down into three sections:<br/>
 &emsp; I. Introduction (you are **here**) <br/>
@@ -267,6 +267,7 @@ else
 ----------------------------------------------------------------------------------------------------------------------------------------
 
 ***Reminder: to test Stripe API functionality, you will have to set up a Stripe account and CLI. This process is covered in the set-up section of this document.*** <br/>
+
 (8) The PaymentService pathway is summarized using the code snippets below. To utilize the Stripe API you will have to replace the "secret" string and test API key with ones keyed to your account.
 
 **BACK-END (example code found at DeadArtistsWASM\DeadArtistsWASM\Server\Services\PaymentService\PaymentService.cs):**
@@ -377,6 +378,8 @@ public async Task<string> PlaceOrder()
 
 **SECTION III. Setup**
 
+If you have already utilized SQL software before and would like to set up the database in your own fashion, feel free to do so.
+
 **(1) Installing Microsoft SQL Server Express**
 
 To install Microsoft SQL Sever Express, navigate to URL: 
@@ -417,7 +420,9 @@ Using the PMC, navigate to the "/DeadArtistsWASM/Server" directory with the comm
 ![image](https://user-images.githubusercontent.com/35633314/181593980-693e7faf-b7e8-4406-bc4b-51e824b1ec90.png)
 
 The Entity Framework migrations exist within the solution, so you will only need to execute the "Update" command.
-In the PMC, please type the command: **dotnet ef database update**.
+In the PMC, please enter the command: 
+
+dotnet ef database update
 
 ![image](https://user-images.githubusercontent.com/35633314/181594993-c632cbdb-b57d-4e49-9938-d2649dc668ef.png)
 
