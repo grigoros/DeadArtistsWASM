@@ -21,6 +21,8 @@ https://www.microsoft.com/en-us/sql-server/sql-server-downloads
 Install the Express version. Follow recommended instructions. ***IF YOU DO NOT PERFORM A DEFAULT INSTALLATION,
 YOU WILL HAVE TO CONFIGURE THE CONNECTION STRINGS YOURSELF***.
 
+***THIS IS AN IMAGE:***
+
 ![image](https://user-images.githubusercontent.com/35633314/181590260-068f6ce2-a99f-4fd8-92cc-53a685dc0d58.png)
 
 -------------------------------------------------------------------------------------------------------------
@@ -32,6 +34,8 @@ To install Microsoft SQL Server Management Studio, navigate to URL:
 https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16
 
 Install SSMS. It is possible that the version has changed. This is fine.
+
+***THIS IS AN IMAGE:***
 
 ![image](https://user-images.githubusercontent.com/35633314/181591051-85d498b0-9d57-4673-ae00-d6338e4df9cc.png)
 
