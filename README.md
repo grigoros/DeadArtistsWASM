@@ -36,15 +36,38 @@ EXAMPLE CODE shows the pathway through several classes whereby the client "gets"
 1. My class, DataContext, inherits from the EF DbContext class to act as the "data layer" and model builder for
 my SQL database. Example code found in DeadArtistsWASM\Server\Data\DataContext.cs **(Requirement 1 satisfied)**
 
-![image](https://user-images.githubusercontent.com/35633314/181604776-3b
+public class DataContext : DbContext
+    {
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CartItem>()
+                .HasKey(ci => new { ci.UserId, ci.ProductId, ci.ProductTypeId });
+            modelBuilder.Entity<ProductVariant>()
+                .HasKey(p => new { p.ProductId, p.ProductTypeId });
+            modelBuilder.Entity<OrderItem>()
+                .HasKey(oi => new { oi.OrderId, oi.ProductId, oi.ProductTypeId });
+
+        ...
+
+------------------------------------------------------------------------------------------------------------------
 
 2. For clarity, the Product model code and ServiceResponse value object code are shown below. The ServiceResponse class encapsulate all objects as results that are given to the client. One such encapsulated object the client receives is the object of type Product.
 
-ServiceResponse:
+**ServiceResponse:**
 
-![image](https://user-images.githubusercontent.com/35633314/181605842-d7eabfaf-20bd-42b4-8674-1044b2df5b53.png)
+public class ServiceResponse<T>
+    {
+        public T? Data { get; set; }
+        public bool Success { get; set; } = true;
+        public string Message { get; set; } = string.Empty;
+    }
 
-Product: 
+**Product:** 
 
 ![image](https://user-images.githubusercontent.com/35633314/181606289-18c6af81-485b-4679-926a-84e64abb995e.png)
 
@@ -66,7 +89,7 @@ Product:
 
 ![image](https://user-images.githubusercontent.com/35633314/181611589-47f5e750-c97b-4f2a-b7c8-f616b4db95b2.png)
 
-6. Finally the ProductService is injected and the ProductList Razor component added to the HTML on the Index page. Example code found in DeadArtistsWASM\Client\Pages\Index.razor **(Requirements 2 and 3 are now fully satisfied).
+6. Finally the ProductService is injected and the ProductList Razor component added to the HTML on the Index page. Example code found in DeadArtistsWASM\Client\Pages\Index.razor **(Requirements 2 and 3 are now fully satisfied)**.
 
 ![image](https://user-images.githubusercontent.com/35633314/181613109-77bc3486-8e78-4308-800f-90e302f8e504.png)
 
