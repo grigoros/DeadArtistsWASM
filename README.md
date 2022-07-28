@@ -39,7 +39,7 @@ Several Code Louisville Requirements have been satisfied in this project:
 2. Create a dictionary or list, populate it with several values, retrieve at least one value, and use it in your program. <br/>
 3. Read data from an external file, such as text, JSON, CSV, etc and use that data in your application **(SQL Server stores
 the data and sends data to the client as JSON)** <br/>
-4. Connect to an external/3rd party API and read data into your app. **(To test this functionality user will have to create a Stripe account and use their own test APIs, as I am not comfortable sharing my Stripe/bank account information online.)** <br/>
+4. Connect to an external/3rd party API and read data into your app. **(To test this functionality, a user will have to create a Stripe account and use their own test API key, as I am not comfortable sharing my Stripe account information.)** <br/>
 
 **This project incorporates many other features such as JSON Web Token Creation and HMAC512 password encryption, but these features will not be discussed in the ReadMe.**
 
