@@ -1,6 +1,6 @@
 # DeadArtistsWASM
 
-**SECTION I -- Introduction
+Introduction:
 
 Welcome to my Code Louisville C# project!
 This Blazor WASM website is a barebones demonstration of my proficiency in the C# programming language,
