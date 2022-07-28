@@ -16,7 +16,7 @@ This ReadMe is broken down into three sections:<br/>
 &emsp; II. Project Requirements <br/>
 &emsp; III. Setup <br/>
 
-The project requirements section will guide the user through the logic of Back-end -> Controller -> Front-end.
+The Project Requirements section will guide the user through the logic of Back-end -> Controller -> Front-end and demonstrate how the requirements for the Code Louisville Software Development Course I were met.
 
 The Setup section will go over the following steps:
 1. Installing Microsoft SQL Server Express <br/>
