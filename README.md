@@ -220,6 +220,8 @@ else
     </ul>
 ```
 
+------------------------------------------------------------------------------------------------------------------
+
 (7) Finally the ProductService is injected and the ProductList Razor component added to the HTML on the Index page. Code found at DeadArtistsWASM\DeadArtistsWASM\Client\Pages\Index.razor **(Requirements 2 and 3 are now fully satisfied)**. <br/>
 
 ```cs
@@ -373,7 +375,7 @@ public async Task<string> PlaceOrder()
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
-SECTION III. Setup
+**SECTION III. Setup**
 
 **(1) Installing Microsoft SQL Server Express**
 
@@ -473,7 +475,7 @@ Once the CLI is installed, navigate to your console. For this example, I will us
 
 Then, enter the following command: 
 
-    **stripe login**
+    stripe login
 
 ![image](https://user-images.githubusercontent.com/35633314/181628704-b78874ba-34c9-45c5-9740-fe78f26c95ae.png)
 
@@ -481,7 +483,7 @@ Press enter and login to stripe using your account information.
 
 Now, enter the following command:
 
-    **stripe listen --forward-to https://localhost:7230/api/payment**
+    stripe listen --forward-to https://localhost:7230/api/payment
 
 ![image](https://user-images.githubusercontent.com/35633314/181628349-3f147e97-eb1e-443b-88b0-709404e83c98.png)
 
