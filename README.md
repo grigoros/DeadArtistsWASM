@@ -36,8 +36,9 @@ the data and sends data to the client as JSON)** <br/>
 ------------------------------------------------------------------------------------------------------------------
 
 (1) The class, DataContext, inherits from the EF DbContext class to act as the "data layer" and model builder for
-my SQL database. Example code found in DeadArtistsWASM\Server\Data\DataContext.cs **(Requirement 1 satisfied)** <br/>
+my SQL database. Example incomplete block code snippet found at DeadArtistsWASM\Server\Data\DataContext.cs **(Requirement 1 satisfied)** <br/>
 
+```cs
 public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
@@ -53,14 +54,15 @@ public class DataContext : DbContext
                 .HasKey(p => new { p.ProductId, p.ProductTypeId });
             modelBuilder.Entity<OrderItem>()
                 .HasKey(oi => new { oi.OrderId, oi.ProductId, oi.ProductTypeId });
-
+```
         ...
+
 
 ------------------------------------------------------------------------------------------------------------------
 
 (2) For clarity, the Product model code and ServiceResponse value object code are shown below. The ServiceResponse class encapsulate all objects as results that are given to the client. One such encapsulated object the client receives is the object of type Product. <br/>
 
-**ServiceResponse:**
+ServiceResponse (example code found at DeadArtistsWASM\DeadArtistsWASM\Shared\ServiceResponse.cs):
 
 ```cs
 public class ServiceResponse<T>
@@ -71,31 +73,180 @@ public class ServiceResponse<T>
     }
 ```
 
-**Product:** 
+Product (example code found at DeadArtistsWASM\DeadArtistsWASM\Shared\Product.cs):
 
-![image](https://user-images.githubusercontent.com/35633314/181606289-18c6af81-485b-4679-926a-84e64abb995e.png)
+```cs
+public class Product
+    {
+        public int Id { get; set; }
+        [Required]
+        public string Title { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string ImageUrl { get; set; } = string.Empty;
+        public Category? Category { get; set; }
+        public int CategoryId { get; set; }
+        public bool Featured { get; set; } = false;
+        public List<ProductVariant> Variants { get; set; } = new List<ProductVariant>();
+        public bool Visible { get; set; } = true;
+        public bool Deleted { get; set; } = false;
+        [NotMapped]
+        public bool Editing { get; set; } = false;
+        [NotMapped]
+        public bool IsNew { get; set; } = false;
+    }
+```
+------------------------------------------------------------------------------------------------------------------
 
-2. Using an instantiation of the DataContext object, the ServiceResponse value object, and object models, the back-end/server services generate and return a response of type [OBJECT]. The example below shows the method whereby the back-end service retrieves products from the SQL database. Moreover, the example shows the first instantiation of a List. Example code found in DeadArtistsWASM\Server\Services\ProductService\ProductService.cs **(Requirements 2 and 3 partially satisfied; this data will be used  in the client)
+(3) Using an instantiation of the DataContext object, the ServiceResponse value object, and object models, the back-end/server services generate and return a response of type [OBJECT]. The example below shows the method whereby the back-end service retrieves products from the SQL database. Moreover, the example shows the first instantiation of a List. Example code found at DeadArtistsWASM\DeadArtistsWASM\Server\Services\ProductService\ProductService.cs **(Requirements 2 and 3 partially satisfied; this data will be used  in the client)** <br/>
 
-![image](https://user-images.githubusercontent.com/35633314/181602363-f814d9e8-6e9a-478c-947f-8853c0823867.png)
+```cs
+public async Task<ServiceResponse<List<Product>>> GetProductsAsync()
+    {
+        var response = new ServiceResponse<List<Product>>
+        {
+            Data = await _context.Products
+                .Where(p => p.Visible && !p.Deleted)
+                .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
+                .ToListAsync()
+        };
+        return response;
+    }
+```
 
-3. The ProductController manages HTTP requests between back and front ends. Example code found in DeadArtistsWASM\Server\Controllers\ProductController.cs
+------------------------------------------------------------------------------------------------------------------
 
-![image](https://user-images.githubusercontent.com/35633314/181602009-997128e5-5a6c-4625-952b-71e96447e838.png)
+(4) The ProductController manages HTTP requests between back and front ends. Example code found at DeadArtistsWASM\DeadArtistsWASM\Server\Controllers\ProductController.cs <br/>
 
-4. The front-end/client ProductService initializes the list of products and gets the data from the controller. Example code found in DeadArtistsWASM\Client\Services\ProductService\ProductService.cs
+```cs
+[HttpGet]
+    public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProducts()
+    {
+        var result = await _productService.GetProductsAsync();
+        return Ok(result);
+    }
+```
 
-![image](https://user-images.githubusercontent.com/35633314/181601661-1bea0bb4-cae9-4066-b31e-9473bed2933b.png)
+------------------------------------------------------------------------------------------------------------------
 
-![image](https://user-images.githubusercontent.com/35633314/181601849-80192cff-fedd-4c89-a234-35bd1d396a11.png)
+(5) The front-end/client ProductService initializes the list of products and gets the data from the controller. Example incomplete block code snippet and GetProducts() method found at DeadArtistsWASM\DeadArtistsWASM\Client\Services\ProductService\ProductService.cs <br/>
 
-5. The ProductList razor component then injects the ProductService to organize the product properties in HTML. Example code found in DeadArtistsWASM\Client\Shared\ProductList.razor
+```cs
+public class ProductService : IProductService
+    {
+        private readonly HttpClient _http;
 
-![image](https://user-images.githubusercontent.com/35633314/181611589-47f5e750-c97b-4f2a-b7c8-f616b4db95b2.png)
+        public ProductService(HttpClient http)
+        {
+            _http = http;
+        }
+        public List<Product> Products { get; set; } = new List<Product>();
+        public string Message { get; set; } = "Loading products...";
+        public int CurrentPage { get; set; } = 1;
+        public int PageCount { get; set; } = 0;
+        public string LastSearchText { get; set; } = string.Empty;
+        public List<Product> AdminProducts { get; set; }
 
-6. Finally the ProductService is injected and the ProductList Razor component added to the HTML on the Index page. Example code found in DeadArtistsWASM\Client\Pages\Index.razor **(Requirements 2 and 3 are now fully satisfied)**.
+        public event Action ProductsChanged;
 
-![image](https://user-images.githubusercontent.com/35633314/181613109-77bc3486-8e78-4308-800f-90e302f8e504.png)
+        ...
+```
+
+```cs
+public  async Task GetProducts(string? categoryUrl = null)
+    {
+        var result = categoryUrl == null ? 
+            await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product/featured") :
+            await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/product/category/{categoryUrl}");
+        if (result != null && result.Data != null)
+            Products = result.Data;
+
+        CurrentPage = 1;
+        PageCount = 0;
+
+        if (Products.Count == 0)
+            Message = "No products found...";
+
+        ProductsChanged.Invoke();
+    }
+```
+------------------------------------------------------------------------------------------------------------------
+
+5. The ProductList razor component then injects the ProductService to organize the product properties in HTML. Example code found in DeadArtistsWASM\DeadArtistsWASM\Client\Shared\ProductList.razor
+
+```cs
+@inject IProductService ProductService
+@implements IDisposable
+
+@if (ProductService.Products == null || ProductService.Products.Count == 0)
+{
+    <span>@ProductService.Message</span>
+}
+else 
+{
+    <ul class="list-unstyled">
+        @foreach (var product in ProductService.Products)
+        {
+            <li class="media my-3">
+                <div class="media-img-wrapper mr-2">
+                    <a href="/product/@product.Id">
+                        <img class="media-img" src="@product.ImageUrl" alt="@product.Title" />                
+                    </a>
+                </div>
+                <div class="media-body">
+                    <a href="/product/@product.Id">
+                        <h4 class="mb-8">@product.Title</h4>
+                    </a>
+                    <p>@product.Description</p>
+                    <h5 class="price">
+                        @GetPriceText(product)
+                    </h5>
+                </div>
+            </li>
+        }
+    </ul>
+```
+
+6. Finally the ProductService is injected and the ProductList Razor component added to the HTML on the Index page. Code found at DeadArtistsWASM\DeadArtistsWASM\Client\Pages\Index.razor **(Requirements 2 and 3 are now fully satisfied)**.
+
+```cs
+@page "/"
+@page "/search/{searchText}/{page:int}"
+@page "/{categoryUrl}"
+@inject IProductService ProductService
+
+<PageTitle>Dead Artists</PageTitle>
+
+@if(SearchText == null && CategoryUrl == null)
+{
+    <FeaturedProducts />
+}
+else
+{
+    <ProductList />
+}
+
+@code {
+    [Parameter]
+    public string? CategoryUrl { get; set; } = null;
+
+    [Parameter]
+    public string? SearchText { get; set; } = null;
+
+    [Parameter]
+    public int Page { get; set; } = 1;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(SearchText != null)
+        {
+            await ProductService.SearchProducts(SearchText, Page);
+        }
+        else {
+            await ProductService.GetProducts(CategoryUrl);
+        }
+    }
+}
+```
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
