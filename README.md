@@ -440,7 +440,7 @@ Before using Entity Framework, you will have to install the tool with the follow
 
     dotnet tool install --global dotnet-ef
 
-![image](https://user-images.githubusercontent.com/35633314/181648384-c956018f-c891-412b-9a9e-5acbe605238e.png)
+![image](https://user-images.githubusercontent.com/35633314/181655161-fa93ef11-2bd6-4a9b-b8f2-0eed7310cd4e.png)
 
 Now you are ready to run EF commands!
 
