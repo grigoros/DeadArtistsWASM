@@ -74,7 +74,7 @@ public class DataContext : DbContext
 
 ------------------------------------------------------------------------------------------------------------------
 
-(2) For clarity, the Product model code and ServiceResponse value object code are shown below. The ServiceResponse class encapsulate all objects as results that are given to the client. One such encapsulated object the client receives is the object of type Product. <br/>
+(2) For clarity, the Product model code and ServiceResponse value object code are shown below. The ServiceResponse class encapsulate all objects as results that are given to the client. One such encapsulated object the client receives is the object of type Product. Note that some of the products will have the property "Featured" set to "true." The featured products are the products we are interested in for the purpose of this walkthrough. <br/>
 
 **ServiceResponse (example code found at DeadArtistsWASM\DeadArtistsWASM\Shared\ServiceResponse.cs):**
 
@@ -111,15 +111,15 @@ public class Product
 ```
 ------------------------------------------------------------------------------------------------------------------
 
-(3) Using an instantiation of the DataContext object, the ServiceResponse value object, and object models, the back-end/server services generate and return a response of type OBJECT. The example below shows the method whereby the back-end service retrieves products from the SQL database. Moreover, the example shows the first instantiation of a List in a method. Example code found at DeadArtistsWASM\DeadArtistsWASM\Server\Services\ProductService\ProductService.cs **(Requirements 2 and 3 partially satisfied; this data will be used in the client)** <br/>
+(3) Using an instantiation of the DataContext object, the ServiceResponse value object, and object models, the back-end/server services generate and return a response of type OBJECT. The example below shows the method whereby the back-end service retrieves featured products from the SQL database. Moreover, the example shows the first instantiation of a List in a method. Example code found at DeadArtistsWASM\DeadArtistsWASM\Server\Services\ProductService\ProductService.cs **(Requirements 2 and 3 partially satisfied; this data will be used in the client)** <br/>
 
 ```cs
-public async Task<ServiceResponse<List<Product>>> GetProductsAsync()
+public async Task<ServiceResponse<List<Product>>> GetFeaturedProducts()
     {
         var response = new ServiceResponse<List<Product>>
         {
             Data = await _context.Products
-                .Where(p => p.Visible && !p.Deleted)
+                .Where(p => p.Featured && p.Visible && !p.Deleted)
                 .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
                 .ToListAsync()
         };
@@ -129,20 +129,20 @@ public async Task<ServiceResponse<List<Product>>> GetProductsAsync()
 
 ------------------------------------------------------------------------------------------------------------------
 
-(4) The ProductController manages HTTP requests between back and front ends. Example code found at DeadArtistsWASM\DeadArtistsWASM\Server\Controllers\ProductController.cs <br/>
+(4) The ProductController manages HTTP requests between back and front ends. The method below gets the "FeaturedProducts" from the back-end service. Example code found at DeadArtistsWASM\DeadArtistsWASM\Server\Controllers\ProductController.cs <br/>
 
 ```cs
-[HttpGet]
-    public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProducts()
+[HttpGet("featured")]
+    public async Task<ActionResult<ServiceResponse<List<Product>>>> GetFeaturedProducts()
     {
-        var result = await _productService.GetProductsAsync();
+        var result = await _productService.GetFeaturedProducts();
         return Ok(result);
     }
 ```
 
 ------------------------------------------------------------------------------------------------------------------
 
-(5) The front-end/client ProductService initializes the list of products and gets the data from the controller. Example incomplete block code snippet and GetProducts() method found at DeadArtistsWASM\DeadArtistsWASM\Client\Services\ProductService\ProductService.cs <br/>
+(5) The front-end/client ProductService initializes the list of products and gets the product data from the controller. Note that if a categoryUrl is not provided, the ternary statement in the method shown below will get the "featured" products from the controller API. Example incomplete block code snippet and GetProducts() method found at DeadArtistsWASM\DeadArtistsWASM\Client\Services\ProductService\ProductService.cs <br/>
 
 ```cs
 public class ProductService : IProductService
@@ -185,44 +185,59 @@ public  async Task GetProducts(string? categoryUrl = null)
 ```
 ------------------------------------------------------------------------------------------------------------------
 
-(6) The ProductList razor component then injects the ProductService to organize the product properties in HTML. Example code found in DeadArtistsWASM\DeadArtistsWASM\Client\Shared\ProductList.razor <br>
+(6) The FeaturedProducts razor component then injects the ProductService to organize the product properties in HTML. Code found in DeadArtistsWASM\DeadArtistsWASM\Client\Shared\ProductList.razor <br>
 
 ```cs
 @inject IProductService ProductService
 @implements IDisposable
 
-@if (ProductService.Products == null || ProductService.Products.Count == 0)
+<center><h2>Featured Products</h2></center>
+@if(ProductService.Products == null || ProductService.Products.Count == 0)
 {
     <span>@ProductService.Message</span>
 }
-else 
+else
 {
-    <ul class="list-unstyled">
-        @foreach (var product in ProductService.Products)
+    <div class="container">
+        @foreach (var product in ProductService.Products) 
         {
-            <li class="media my-3">
-                <div class="media-img-wrapper mr-2">
-                    <a href="/product/@product.Id">
-                        <img class="media-img" src="@product.ImageUrl" alt="@product.Title" />                
-                    </a>
+            @if (product.Featured)
+            {
+                <div class="featured-product">
+                    <div> 
+                        <a href="product/@product.Id">
+                            <img src="@product.ImageUrl">
+                        </a>
+                    </div>
+                    <h4><a href="product/@product.Id">@product.Title</a></h4>
+                    @if(product.Variants != null && product.Variants.Count > 0)
+                    {
+                        <h5 class="price">
+                            $@product.Variants[0].Price
+                        </h5>
+                    }
                 </div>
-                <div class="media-body">
-                    <a href="/product/@product.Id">
-                        <h4 class="mb-8">@product.Title</h4>
-                    </a>
-                    <p>@product.Description</p>
-                    <h5 class="price">
-                        @GetPriceText(product)
-                    </h5>
-                </div>
-            </li>
-        }
-    </ul>
+            }
+    }
+    </div>
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        ProductService.ProductsChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        ProductService.ProductsChanged -= StateHasChanged;
+    }
+}
 ```
 
 ------------------------------------------------------------------------------------------------------------------
 
-(7) Finally the ProductService is injected and the ProductList Razor component added to the HTML on the Index page. Code found at DeadArtistsWASM\DeadArtistsWASM\Client\Pages\Index.razor **(Requirements 2 and 3 are now fully satisfied)**. <br/>
+(7) Finally the ProductService is injected and the FeaturedProducts Razor component added to the HTML on the Index page. Code found at DeadArtistsWASM\DeadArtistsWASM\Client\Pages\Index.razor **(Requirements 2 and 3 are now fully satisfied)**. <br/>
 
 ```cs
 @page "/"
