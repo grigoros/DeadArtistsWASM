@@ -421,6 +421,14 @@ Using the PMC, navigate to the "/DeadArtistsWASM/Server" directory with the comm
 
 ![image](https://user-images.githubusercontent.com/35633314/181593980-693e7faf-b7e8-4406-bc4b-51e824b1ec90.png)
 
+Before using Entity Framework, you will have to install the tool with the following command:
+
+    dotnet tool install --global dotnet-ef
+
+![image](https://user-images.githubusercontent.com/35633314/181648384-c956018f-c891-412b-9a9e-5acbe605238e.png)
+
+Now you are ready to run EF commands!
+
 The Entity Framework migrations exist within the solution, so you will only need to execute the "Update" command.
 In the PMC, please enter the following command: 
 
@@ -440,7 +448,7 @@ Now that you've seeded the database, run the solution and try adding a user on t
 
 ![image](https://user-images.githubusercontent.com/35633314/181630801-d404fd3d-adc4-40de-97b5-d3b0ab92368c.png)
 
-You should now be able to login using your username and password. By default you have the role of "Customer." If you wish to gain added access to site functions like CRUD operations for all of the different objects the site uses, navigate to the database in SQL Server Management Studio and update the Role of your user to "Admin".
+You should now be able to login using your username and password. By default you have the role of "Customer." If you wish to gain added access to site functions like CRUD operations for all of the different objects the site uses, navigate to the database in SQL Server Management Studio and update the Role of your user to "Admin". Be aware that you you may need to refresh the database in SQL Server before your new user row will show up in the dbo.User table.
 
 ![image](https://user-images.githubusercontent.com/35633314/181631687-8391662c-e74a-4684-82f5-352e254adb35.png)
 
