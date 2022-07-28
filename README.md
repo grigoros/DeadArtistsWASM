@@ -25,7 +25,7 @@ The Setup section will go over the following steps:
 4. Registering users and adding an administrator <br/>
 5. Setting up a Stripe account<br/>
 6. Setting up a Stripe CLI <br/>
-7. How to navigate/use the site. <br/>
+7. Use the site! <br/>
 
 Let us begin!
 
@@ -510,7 +510,9 @@ Successful calls to the API will yield HTTP requests that resemble the following
 
 -------------------------------------------------------------------------------------------------------------
 
-**(7) Now that you've done all that, feel free to mess around the site at your leisure! Other features to test include the site's search function, pagination, cart functions, and order functions. 
+**(7) Use the site!**
+
+Now that you've done all that, feel free to mess around the site at your leisure! Other features to test include the site's search function, pagination, cart functions, and order functions. 
 
 
 
