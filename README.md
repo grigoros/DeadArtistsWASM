@@ -74,7 +74,7 @@ public class DataContext : DbContext
 
 ------------------------------------------------------------------------------------------------------------------
 
-(2) For clarity, the Product model code and ServiceResponse value object code are shown below. The ServiceResponse class encapsulate all objects as results that are given to the client. One such encapsulated object the client receives is the object of type Product. Note that some of the products will have the property "Featured" set to "true." The featured products are the products we are interested in for the purpose of this walkthrough. <br/>
+(2) For clarity, the Product model code and ServiceResponse value object code are shown below. The ServiceResponse class encapsulate all objects as results that are given to the client. One such encapsulated object the client receives is the object of type Product. Note that all products have a property "Featured" which may or may not be set to "true" either by administrative updates or via direct seeding of the database. The featured products are the products we are interested in for the purpose of this walkthrough. <br/>
 
 **ServiceResponse (example code found at DeadArtistsWASM\DeadArtistsWASM\Shared\ServiceResponse.cs):**
 
