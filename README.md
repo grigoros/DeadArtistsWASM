@@ -15,4 +15,5 @@ My website, Dead Artists, is an e-commerce site specializing in the sale of medi
 (1) Installing Microsoft SQL Server Management Studio -->
 
 To install Microsoft SQL Sever Management Studio (Express) navigate to URL: https://www.microsoft.com/en-us/sql-server/sql-server-downloads
+
 Install the Express version:![image](https://user-images.githubusercontent.com/35633314/181590260-068f6ce2-a99f-4fd8-92cc-53a685dc0d58.png)
