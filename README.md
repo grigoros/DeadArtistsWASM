@@ -420,9 +420,9 @@ Using the PMC, navigate to the "/DeadArtistsWASM/Server" directory with the comm
 ![image](https://user-images.githubusercontent.com/35633314/181593980-693e7faf-b7e8-4406-bc4b-51e824b1ec90.png)
 
 The Entity Framework migrations exist within the solution, so you will only need to execute the "Update" command.
-In the PMC, please enter the command: 
+In the PMC, please enter the following command: 
 
-dotnet ef database update
+    dotnet ef database update
 
 ![image](https://user-images.githubusercontent.com/35633314/181594993-c632cbdb-b57d-4e49-9938-d2649dc668ef.png)
 
