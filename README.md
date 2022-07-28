@@ -12,22 +12,24 @@ My website, Dead Artists, is an e-commerce site specializing in the sale of medi
 (musicians, film-makers, and writers), who are dead.
 
 This ReadMe is broken down into three sections:<br/>
-I. Introduction (you are **here**) <br/>
-II. Project Requirements <br/>
-III. Setup <br/>
+    I. Introduction (you are **here**) <br/>
+    II. Project Requirements <br/>
+    III. Setup <br/>
 
 The project requirements section will guide the user through the logic of Back-end -> Controller -> Front-end.
 
 The Setup section will go over the following steps:
-1. The completion of project requirements <br/>
-2. How to set up Microsoft SQL Server Management Studio <br/>
-3. How to seed the SQL database <br/>
-4. How to set up a Stripe account & CLI <br/>
-5. How to utilize a Stripe Web API to checkout & create orders <br/>
-6. How to register site users/administrators <br/>
+1. Installing Microsoft SQL Server Express <br/>
+2. Installing Microsoft SQL Server Management Studio <br/>
+3. Seeding the SQL database <br/>
+4. How to register site users/administrators <br/>
+5. Setting up a Stripe account<br/>
+6. Setting up a Stripe CLI <br/>
 7. How to navigate/use the site. <br/>
 
 Let us begin!
+
+------------------------------------------------------------------------------------------------------------------
 
 **SECTION II. Project Requirements**
 
@@ -340,12 +342,14 @@ public async Task<Session> CreatCheckoutSession()
 
 **CONTROLLER (example code found at DeadArtistsWASM\DeadArtistsWASM\Server\Controllers\PaymentController.cs):**
 
+```cs
 [HttpPost("checkout"), Authorize]
     public async Task<ActionResult<string>>CreateCheckoutSession()
     {
         var session = await _paymentService.CreatCheckoutSession();
         return Ok(session.Url);
     }
+```
 
 **FRONT-END (example code found at DeadArtistsWASM\DeadArtistsWASM\Client\Services\OrderService\OrderService.cs):** 
 
@@ -365,29 +369,13 @@ public async Task<string> PlaceOrder()
     }
 ```
 
-//HTML implementation ommitted for brevity//<br/>
+//***HTML implementation ommitted for brevity***//<br/>
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
+SECTION III. Setup
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-**(2) Installing Microsoft SQL Server Express -->**
+**(1) Installing Microsoft SQL Server Express**
 
 To install Microsoft SQL Sever Express, navigate to URL: 
 
@@ -402,7 +390,7 @@ YOU WILL HAVE TO CONFIGURE THE CONNECTION STRINGS YOURSELF***.
 
 -------------------------------------------------------------------------------------------------------------
 
-**(2) Install Microsoft SQL Server Management Studio -->**
+**(2) Installing Microsoft SQL Server Management Studio**
 
 To install Microsoft SQL Server Management Studio, navigate to URL:
 
@@ -416,7 +404,7 @@ Install SSMS. It is possible that the version has changed. This is fine.
 
 -------------------------------------------------------------------------------------------------------------
 
-**(3) Seed the database (using Visual Studio) -->**
+**(3) Seed the database (using Visual Studio)**
 
 Open the DeadArtistsWASM.sln file in Visual Studio. Then, to seed the SQL database, navigate to the Package Manager Console (PMC):
 
@@ -437,8 +425,96 @@ With this step complete you should be able to run the application by clicking th
 
 -------------------------------------------------------------------------------------------------------------
 
-***If you wish to test the Payment Processor/Order creation functionality.***
-**(4)  
+**(4) Registering users and adding an administrator**
+    
+Now that you've seeded the database, run the solution and try adding a user on the registration page. Feel free to use a dummy email address, like, admin@gmail.com. And make sure to follow passsword requirements when setting up a password.
+
+![image](https://user-images.githubusercontent.com/35633314/181630801-d404fd3d-adc4-40de-97b5-d3b0ab92368c.png)
+
+You should now be able to login using your username and password. By default you have the role of "Customer." If you wish to gain added access to site functions like CRUD operations for all of the different objects the site uses, navigate to the database in SQL Server Management Studio and update the Role of your user to "Admin".
+
+![image](https://user-images.githubusercontent.com/35633314/181631687-8391662c-e74a-4684-82f5-352e254adb35.png)
+
+Now, you should be able to see new buttons on the dropdown user-button. Using these pages you should be able to edit the data for these object types in the database directly.
+
+![image](https://user-images.githubusercontent.com/35633314/181632440-1b4d4373-c03e-4aed-a386-e93a5b1c3e49.png)
+
+-------------------------------------------------------------------------------------------------------------
+
+**(5) Setting up a Stripe account**
+
+Navigate to the following URL: https://dashboard.stripe.com/register and follow the instructions given by the site to make an accounty. **NOTE: You will have to enter bank account information and an affiliated website URL to setup an account.**
+    
+Once your account has been setup make sure to turn on TEST MODE in the upper right hand corner of the dashboard:
+
+![image](https://user-images.githubusercontent.com/35633314/181625567-73061710-4eb9-44ab-9f85-5698452aaa77.png)
+
+Next, find your TEST API key located on the TEST dashboard page:
+
+![image](https://user-images.githubusercontent.com/35633314/181626045-eb934c79-b0c4-43ff-830e-8dbd7218bc63.png)
+
+Copy/paste this key to the following location in double quotes in the back-end PaymentService at DeadArtistsWASM\DeadArtistsWASM\Server\Services\PaymentService\PaymentService.cs:
+
+![image](https://user-images.githubusercontent.com/35633314/181626420-1b541ffd-b11e-411b-a534-4642176f82aa.png)
+
+-------------------------------------------------------------------------------------------------------------
+
+**(6) Setting up a Stripe CLI**
+
+Navigate to the following URL: https://stripe.com/docs/stripe-cli and follow the instructions for your machine to install the CLI. For example, the windows instructions look like so:
+
+![image](https://user-images.githubusercontent.com/35633314/181626849-ad3ac462-9ea4-44d9-9323-09f0f01888ef.png)
+
+-------------------------------------------------------------------------------------------------------------
+
+Once the CLI is installed, navigate to your console. For this example, I will use the Windows Command Prompt. Navigate to the location where you have extracted and installed the Stripe CLI, like so:
+
+![image](https://user-images.githubusercontent.com/35633314/181627282-8c9d9224-afb5-47c7-b327-fdedc858449c.png)
+
+Then, enter the following command: 
+
+    **stripe login**
+
+![image](https://user-images.githubusercontent.com/35633314/181628704-b78874ba-34c9-45c5-9740-fe78f26c95ae.png)
+
+Press enter and login to stripe using your account information.
+
+Now, enter the following command:
+
+    **stripe listen --forward-to https://localhost:7230/api/payment**
+
+![image](https://user-images.githubusercontent.com/35633314/181628349-3f147e97-eb1e-443b-88b0-709404e83c98.png)
+
+Copy the secret provided and paste it into the secret string field within the double quotes at DeadArtistsWASM\DeadArtistsWASM\Server\Services\PaymentService\PaymentService.cs:
+
+![image](https://user-images.githubusercontent.com/35633314/181629219-be2996b8-a562-45b9-be3e-201519b84c97.png)
+    
+***Remember to save the solution!***
+
+-------------------------------------------------------------------------------------------------------------
+    
+You should now be able to checkout items from the store. When you are redirected to the Stripe website, feel free to use the following credit card dummy data:
+
+![image](https://user-images.githubusercontent.com/35633314/181629881-d177c3bb-a654-4f27-b04c-2f41fc7787dd.png)
+
+Successful calls to the API will yield HTTP requests that resemble the following:
+
+![image](https://user-images.githubusercontent.com/35633314/181631925-bc2f9bf8-918b-4383-8f19-a8a8e840c93a.png)
+
+-------------------------------------------------------------------------------------------------------------
+
+**(7) Now that you've done all that, feel free to mess around the site at your leisure! Other features to test include the site's search function, pagination, cart functions, and order functions. 
+
+
+
+
+
+
+
+
+
+
+   
 
 
 
