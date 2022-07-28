@@ -9,13 +9,13 @@ namespace DeadArtistsWASM.Server.Services.PaymentService
         private readonly IAuthService _authService;
         private readonly IOrderService _orderService;
 
-        const string secret = "whsec_b25cbd123c88008272fa084ac6b001daca6f09c5de9f2a02e756f7f183a69b3e";
+        const string secret = "SECRET OMITTED";
 
         public PaymentService(ICartService cartService,
             IAuthService authService,
             IOrderService orderService)
         {
-            StripeConfiguration.ApiKey = "sk_test_51LNKEwDTg8GfQGz4U1GJEwQHXYsqhwJTdx3MSSCTJ97n75pqh9p6Me5sD8vR99mxu9SWzLfHNEs0tVKyH7D6GtH600PZNHhDEu";
+            StripeConfiguration.ApiKey = "SECRET KEY OMITTED";
 
             _cartService = cartService;
             _authService = authService;
