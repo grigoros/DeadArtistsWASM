@@ -395,7 +395,7 @@ public async Task<string> PlaceOrder()
 
 ***NOTE 1. If you have already utilized SQL software before and would like to set up the database in your own fashion, feel free to do so.***
 
-***NOTE 2. You will need to have .NET 6.0 and Blazor Web Assembly (WASM) installed in Visual Studio to run this program.***
+***NOTE 2. You will need to have the ASP.NET & Web Development workload installed in Visual Studio to run this program.***
 
 **(1) Installing Microsoft SQL Server Express**
 
