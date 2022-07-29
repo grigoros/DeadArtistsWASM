@@ -4,8 +4,7 @@
 
 Welcome to my Code Louisville C# project!
 This Blazor WASM website is a barebones demonstration of my proficiency in the C# programming language,
-.NET 6.0, Entity Framework, and the repository-based architecture pattern in web development. The back-end
-database is configured to use Microsoft SQL Server and the payment processor is configured to utilize
+.NET 6.0, and Entity Framework. The back-end is configured to use Microsoft SQL Server and the payment processor is configured to utilize
 Stripe webhooks.
 
 My website, Dead Artists, is an e-commerce site specializing in the sale of media produced only by artists
