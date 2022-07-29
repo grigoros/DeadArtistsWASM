@@ -475,7 +475,7 @@ Now, you should be able to see new buttons on the dropdown user-button. Using th
 
 **(5) Setting up a Stripe account**
 
-Navigate to the following URL: https://dashboard.stripe.com/register and follow the instructions given by the site to make an accounty. **NOTE: You will have to enter bank account information and an affiliated website URL to setup an account.**
+Navigate to the following URL: https://dashboard.stripe.com/register and follow the instructions given by the site to make an account. **NOTE: You will have to enter bank account information and an affiliated website URL to setup an account.**
     
 Once your account has been setup make sure to turn on TEST MODE in the upper right hand corner of the dashboard:
 
